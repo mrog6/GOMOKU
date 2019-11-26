@@ -152,10 +152,12 @@ public class Controller extends JPanel {
                 }
 
                 if (turn % 2 == 1) {
+                    view.statusLabel.setForeground(newColor1);
                     view.statusLabel.setText(view.playerOneName.getText() + " Wins!");
                 }
                 else if (turn % 2 == 0) {
                     view.buttons[i][j].setText("O");
+                    view.statusLabel.setForeground(newColor2);
                     view.statusLabel.setText(view.playerTwoName.getText() + " Wins!");
                     view.buttons[i][j].setForeground(newColor2);
                 }

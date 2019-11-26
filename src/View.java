@@ -45,11 +45,17 @@ public class View extends JFrame implements ActionListener {
         leftPanel.setLayout(new GridLayout(6, 0));
         leftPanel.setBorder(BorderFactory.createTitledBorder("Player 1 (X)"));
         JLabel playerOneNameLabel = new JLabel("Name:");
+        playerOneNameLabel.setFont(new Font(" ", Font.PLAIN, 20));
         playerOneName = new JLabel(" ");
+        playerOneName.setFont(new Font(" ", Font.PLAIN, 20));
         JLabel playerOneWinLabel = new JLabel("Wins:");
+        playerOneWinLabel.setFont(new Font(" ", Font.PLAIN, 20));
         playerOneWins = new JLabel("0");
+        playerOneWins.setFont(new Font(" ", Font.PLAIN, 20));
         JLabel playerOneLossLabel = new JLabel("Losses:");
+        playerOneLossLabel.setFont(new Font(" ", Font.PLAIN, 20));
         playerOneLosses = new JLabel("0");
+        playerOneLosses.setFont(new Font(" ", Font.PLAIN, 20));
         leftPanel.add(playerOneNameLabel);
         leftPanel.add(playerOneName);
         leftPanel.add(playerOneWinLabel);
@@ -62,11 +68,17 @@ public class View extends JFrame implements ActionListener {
         rightPanel.setLayout(new GridLayout(6, 0));
         rightPanel.setBorder(BorderFactory.createTitledBorder("Player 2 (O)"));
         JLabel playerTwoNameLabel = new JLabel("Name:");
+        playerTwoNameLabel.setFont(new Font(" ", Font.PLAIN, 20));
         playerTwoName = new JLabel(" ");
+        playerTwoName.setFont(new Font(" ", Font.PLAIN, 20));
         JLabel playerTwoWinLabel = new JLabel("Wins:");
+        playerTwoWinLabel.setFont(new Font(" ", Font.PLAIN, 20));
         playerTwoWins = new JLabel("0");
+        playerTwoWins.setFont(new Font(" ", Font.PLAIN, 20));
         JLabel playerTwoLossLabel = new JLabel("Losses:");
+        playerTwoLossLabel.setFont(new Font(" ", Font.PLAIN, 20));
         playerTwoLosses = new JLabel("0");
+        playerTwoLosses.setFont(new Font(" ", Font.PLAIN, 20));
         rightPanel.add(playerTwoNameLabel);
         rightPanel.add(playerTwoName);
         rightPanel.add(playerTwoWinLabel);
@@ -80,7 +92,7 @@ public class View extends JFrame implements ActionListener {
 
         JPanel statusLabelPanel = new JPanel();
         statusLabel = new JLabel("Welcome to GO-MOKU!");
-        statusLabel.setFont(new Font(" ", Font.BOLD, 20));
+        statusLabel.setFont(new Font(" ", Font.BOLD, 30));
         statusLabelPanel.add(statusLabel);
 
         // grid for the JButtons
