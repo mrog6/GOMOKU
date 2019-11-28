@@ -20,7 +20,6 @@ public class View extends JFrame implements ActionListener {
     protected final String PLAYER_ONE_SYMBOL = "X";
     protected final String PLAYER_TWO_SYMBOL = "O";
 
-
     public View(Controller controller) {
         super("Go-Moku");
         this.controller = controller;

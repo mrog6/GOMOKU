@@ -4,10 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller extends JPanel {
+    private Database database;
     private Model model;
     private View view;
-    protected Timer timer;
-    static final int DELAY = 5000;
+//    protected Timer timer;
+//    static final int DELAY = 5000;
     protected int turn;
     protected String playerOne;
     protected String playerTwo;
@@ -18,7 +19,7 @@ public class Controller extends JPanel {
     public Controller(Model model) {
         this.model = model;
         this.view = new View(this);
-        startOver();
+        openingMessage();
 
         view.resetButton.addActionListener(new ActionListener() {
             @Override
@@ -33,7 +34,7 @@ public class Controller extends JPanel {
                         view.buttons[k][j].setEnabled(true);
                     }
                 }
-                startOver();
+                openingMessage();
             }
         });
 
@@ -54,7 +55,7 @@ public class Controller extends JPanel {
 
     }
 
-    public void chooseColor() {
+    public void chooseColorTwoPlayer() {
         newColor1 = JColorChooser.showDialog(null,
                 playerOne + ", choose your symbol color!",
                 null);
@@ -78,6 +79,21 @@ public class Controller extends JPanel {
         }
     }
 
+    public void chooseColorOnePlayer() {
+        newColor1 = JColorChooser.showDialog(null,
+                playerOne + ", choose your symbol color!",
+                null);
+        if (newColor1 == null || newColor1.equals(c)) {
+            view.playerOneName.setForeground(Color.BLACK);
+            newColor1 = Color.BLUE;
+        }
+        else {
+            view.playerOneName.setForeground(newColor1);
+        }
+        newColor2 = Color.BLACK;
+        view.playerTwoName.setForeground(newColor2);
+    }
+
     public void openingMessage() {
         String[] options = {"Friend", "Computer", "Cancel"};
         int choice = JOptionPane.showOptionDialog(null, "The object of the game is to get 5 in a row. " +
@@ -85,32 +101,51 @@ public class Controller extends JPanel {
                 "WELCOME TO GO MOKU!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options,
                 options[0]);
-//        if (choice == JOptionPane.YES_OPTION) {
-//
-//        }
-//        if (choice == JOptionPane.NO_OPTION)
-//            System.exit(0);
-//        else
-//            System.exit(0);
+        if (choice == JOptionPane.YES_OPTION) {
+            twoPlayerGame();
+        }
+        if (choice == JOptionPane.NO_OPTION)
+            onePlayerGame();
+        else
+            System.exit(0);
     }
 
-    public void startOver() {
-        openingMessage();
+    public void twoPlayerGame() {
+        //openingMessage();
         playerOne = JOptionPane.showInputDialog("Please enter player 1's name");
         if (playerOne.length() != 0)
             view.playerOneName.setText(playerOne);
-        else
+        else {
             view.playerOneName.setText("Player 1");
+            playerOne = "Player 1";
+        }
 
         playerTwo = JOptionPane.showInputDialog("Please enter player 2's name");
         if (playerTwo.length() != 0)
             view.playerTwoName.setText(playerTwo);
-        else
+        else {
             view.playerTwoName.setText("Player 2");
+            playerTwo = "Player 2";
+        }
 
         this.turn = 1;
         view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
-        chooseColor();
+        chooseColorTwoPlayer();
+    }
+
+    public void onePlayerGame() {
+        playerOne = JOptionPane.showInputDialog("Please enter your name");
+        if (playerOne.length() != 0)
+            view.playerOneName.setText(playerOne);
+        else {
+            view.playerOneName.setText("Player 1");
+            playerOne = "Player 1";
+        }
+        playerTwo = "Computer";
+        view.playerTwoName.setText(playerTwo);
+        this.turn = 1;
+        view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+        chooseColorOnePlayer();
     }
 
     public void pressButton(int i, int j) {
@@ -142,7 +177,6 @@ public class Controller extends JPanel {
                 view.buttons[i][j].setBackground(newColor2);
             }
 
-
             if (model.checkWin(i, j, turn)) {
                 System.out.println("WINNER");
                 for (int x = 0; x<15; x++) {
@@ -165,10 +199,6 @@ public class Controller extends JPanel {
 
             turn++;
         }
-    }
-
-    public void makeMove() {
-
     }
 
     public static void main(String[] args) {
