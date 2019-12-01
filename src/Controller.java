@@ -15,6 +15,10 @@ public class Controller extends JPanel {
     protected Color newColor1;
     protected Color newColor2;
     Color c = Color.WHITE;
+    protected int playerOneWins = 0;
+    protected int playerTwoWins = 0;
+    protected int playerOneLosses = 0;
+    protected int playerTwoLosses = 0;
 
     public Controller(Model model) {
         this.model = model;
@@ -24,6 +28,7 @@ public class Controller extends JPanel {
         view.resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //database.deleteAllStats();
                 view.statusLabel.setForeground(Color.BLACK);
                 model.emptyBoard();
                 for (int k = 0; k < 15; k++) {
@@ -32,6 +37,14 @@ public class Controller extends JPanel {
                         view.buttons[k][j].setForeground(Color.WHITE);
                         view.buttons[k][j].setBackground(Color.WHITE);
                         view.buttons[k][j].setEnabled(true);
+                        playerOneLosses = 0;
+                        playerTwoLosses = 0;
+                        playerOneWins = 0;
+                        playerTwoWins = 0;
+                        view.playerTwoWins.setText(playerTwoWins + " ");
+                        view.playerOneLosses.setText(playerOneLosses + " ");
+                        view.playerOneWins.setText(playerOneWins + " ");
+                        view.playerTwoLosses.setText(playerTwoLosses + " ");
                     }
                 }
                 openingMessage();
@@ -42,6 +55,14 @@ public class Controller extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+
+        view.quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //database.deleteAllStats();
+                System.exit(0);
             }
         });
 
@@ -60,8 +81,8 @@ public class Controller extends JPanel {
                 playerOne + ", choose your symbol color!",
                 null);
         if (newColor1 == null || newColor1.equals(c)) {
-            view.playerOneName.setForeground(Color.BLACK);
             newColor1 = Color.BLUE;
+            view.playerOneName.setForeground(newColor1);
         }
         else {
             view.playerOneName.setForeground(newColor1);
@@ -71,8 +92,8 @@ public class Controller extends JPanel {
                 playerTwo + ", choose your symbol color!",
                 null);
         if (newColor2 == null || newColor2.equals(c)) {
-            view.playerTwoName.setForeground(Color.BLACK);
             newColor2 = Color.RED;
+            view.playerTwoName.setForeground(newColor2);
         }
         else {
             view.playerTwoName.setForeground(newColor2);
@@ -104,14 +125,13 @@ public class Controller extends JPanel {
         if (choice == JOptionPane.YES_OPTION) {
             twoPlayerGame();
         }
-        if (choice == JOptionPane.NO_OPTION)
+        else if (choice == JOptionPane.NO_OPTION)
             onePlayerGame();
         else
             System.exit(0);
     }
 
     public void twoPlayerGame() {
-        //openingMessage();
         playerOne = JOptionPane.showInputDialog("Please enter player 1's name");
         if (playerOne.length() != 0)
             view.playerOneName.setText(playerOne);
@@ -127,7 +147,6 @@ public class Controller extends JPanel {
             view.playerTwoName.setText("Player 2");
             playerTwo = "Player 2";
         }
-
         this.turn = 1;
         view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
         chooseColorTwoPlayer();
@@ -149,7 +168,6 @@ public class Controller extends JPanel {
     }
 
     public void pressButton(int i, int j) {
-
         if (!model.validMove(i, j)) {
             if (turn % 2 == 1) {
                 view.statusLabel.setText("Invalid Move. " + view.playerOneName.getText() + "'s turn");
@@ -187,16 +205,56 @@ public class Controller extends JPanel {
 
                 if (turn % 2 == 1) {
                     view.statusLabel.setForeground(newColor1);
+                    playerOneWins++;
+                    playerTwoLosses++;
                     view.statusLabel.setText(view.playerOneName.getText() + " Wins!");
+                    view.playerOneWins.setText(playerOneWins + " ");
+                    view.playerTwoLosses.setText(playerTwoLosses + " ");
                 }
                 else if (turn % 2 == 0) {
                     view.buttons[i][j].setText("O");
                     view.statusLabel.setForeground(newColor2);
+                    playerTwoWins++;
+                    playerOneLosses++;
                     view.statusLabel.setText(view.playerTwoName.getText() + " Wins!");
                     view.buttons[i][j].setForeground(newColor2);
+                    view.playerTwoWins.setText(playerTwoWins + " ");
+                    view.playerOneLosses.setText(playerOneLosses + " ");
                 }
-            }
+                int newGame = JOptionPane.showConfirmDialog(null, "Do you want to play again?",
+                        "Game Over", JOptionPane.YES_NO_OPTION);
+                if (newGame == JOptionPane.YES_OPTION) {
+                    model.emptyBoard();
+                    for (int k = 0; k < 15; k++) {
+                        for (int l = 0; l < 15; l++) {
+                            view.buttons[k][l].setText(" ");
+                            view.buttons[k][l].setForeground(Color.WHITE);
+                            view.buttons[k][l].setBackground(Color.WHITE);
+                            view.buttons[k][l].setEnabled(true);
+                        }
+                    }
+                    if (turn % 2 == 1) {
+                        view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                        view.statusLabel.setForeground(newColor1);
+                    }
+                    else if (turn % 2 == 0) {
+                        view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                        view.statusLabel.setForeground(newColor1);
+                    }
+                }
+                else {
+                    int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
+                            "Save and Close", JOptionPane.YES_NO_OPTION);
+                    if (saveGame == JOptionPane.YES_OPTION) {
+                        System.exit(0); // this will change
+                    }
+                    else {
+                        database.deleteAllStats();
+                        System.exit(0);
+                    }
+                }
 
+            }
             turn++;
         }
     }

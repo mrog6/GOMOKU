@@ -10,10 +10,10 @@ public class Database {
 
     Connection connection;
 
-    public Database() {
-        getConnection();
-        createStatsTable();
-    }
+//    public Database() {
+//        getConnection();
+//        createStatsTable();
+//    }
 
     public void createStatsTable() {
         String sqlCreate = "CREATE TABLE " + GAME_STATS + "(" +

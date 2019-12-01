@@ -16,6 +16,7 @@ public class View extends JFrame implements ActionListener {
     protected JPanel contentPanel;
     protected JButton resetButton;
     protected JButton saveExitButton;
+    protected JButton quitButton;
     protected JButton[][] buttons;
     protected final String PLAYER_ONE_SYMBOL = "X";
     protected final String PLAYER_TWO_SYMBOL = "O";
@@ -113,8 +114,10 @@ public class View extends JFrame implements ActionListener {
         JPanel lastPanel = new JPanel();
         resetButton = new JButton("Reset Names and Stats");
         saveExitButton = new JButton("Save and Exit");
+        quitButton = new JButton("Quit");
         lastPanel.add(saveExitButton);
         lastPanel.add(resetButton);
+        lastPanel.add(quitButton);
 
         // encapsulates both panels into the app
         contentPanel.add(topPanel, BorderLayout.WEST);
