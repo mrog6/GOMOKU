@@ -3,12 +3,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The Controller class handles the action Listeners for all JButtons and
+ * controls what the View class displays on the GUI. It contains methods to
+ * play with one player or two players as well as methods to choose colors
+ * and display dialogs.
+ *
+ * History:
+ *
+ * @author Meghan Rogers, Nick Chua, Ewan Akins
+ * @see "No Borrowed Code"
+ *
+ */
 public class Controller extends JPanel {
     private Database database;
     private Model model;
     private View view;
-//    protected Timer timer;
-//    static final int DELAY = 5000;
     protected int turn;
     protected String playerOne;
     protected String playerTwo;
@@ -20,6 +30,11 @@ public class Controller extends JPanel {
     protected int playerOneLosses = 0;
     protected int playerTwoLosses = 0;
 
+    /**
+     * The constructor creates a View object to begin the game and displays
+     * the opening message. It also holds the action listeners for three JButtons.
+     * @param model a Model object
+     */
     public Controller(Model model) {
         this.model = model;
         this.view = new View(this);
@@ -27,6 +42,11 @@ public class Controller extends JPanel {
 
         view.resetButton.addActionListener(new ActionListener() {
             @Override
+            /**
+             * Called when the Reset Names and Stats button is pressed, this action listener
+             * empties the board and initializes all player stats to zero. Then, it deletes the
+             * current player names and re-prompts the openingMessage().
+             */
             public void actionPerformed(ActionEvent e) {
                 //database.deleteAllStats();
                 view.statusLabel.setForeground(Color.BLACK);
@@ -53,6 +73,10 @@ public class Controller extends JPanel {
 
         view.saveExitButton.addActionListener(new ActionListener() {
             @Override
+            /**
+             * Called when the Save and Exit button is pressed, this action listener
+             * saves the current game stats for each player.
+             */
             public void actionPerformed(ActionEvent e) {
 
             }
@@ -60,22 +84,20 @@ public class Controller extends JPanel {
 
         view.quitButton.addActionListener(new ActionListener() {
             @Override
+            /**
+             * Called when the Quit button is pressed, this action listener
+             * deletes the current stats from the database and exits the program.
+             */
             public void actionPerformed(ActionEvent actionEvent) {
                 //database.deleteAllStats();
                 System.exit(0);
             }
         });
-
-//        timer = new Timer(DELAY, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("timer");
-//            }
-//        });
-//        timer.start();
-
     }
 
+    /**
+     * Allows each of the two players to choose their symbol color.
+     */
     public void chooseColorTwoPlayer() {
         newColor1 = JColorChooser.showDialog(null,
                 playerOne + ", choose your symbol color!",
@@ -100,6 +122,10 @@ public class Controller extends JPanel {
         }
     }
 
+    /**
+     * Allows the single user, who is playing against the computer, to choose
+     * their symbol color.
+     */
     public void chooseColorOnePlayer() {
         newColor1 = JColorChooser.showDialog(null,
                 playerOne + ", choose your symbol color!",
@@ -115,6 +141,10 @@ public class Controller extends JPanel {
         view.playerTwoName.setForeground(newColor2);
     }
 
+    /**
+     * Displays the game instructions and allows the user to either play with a friend
+     * or play against the computer.
+     */
     public void openingMessage() {
         String[] options = {"Friend", "Computer", "Cancel"};
         int choice = JOptionPane.showOptionDialog(null, "The object of the game is to get 5 in a row. " +
@@ -131,6 +161,9 @@ public class Controller extends JPanel {
             System.exit(0);
     }
 
+    /**
+     * Allows each of two players to input their names.
+     */
     public void twoPlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter player 1's name");
         if (playerOne.length() != 0)
@@ -152,6 +185,9 @@ public class Controller extends JPanel {
         chooseColorTwoPlayer();
     }
 
+    /**
+     * Allows the single user playing against the computer to input his/her name.
+     */
     public void onePlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter your name");
         if (playerOne.length() != 0)
@@ -167,6 +203,13 @@ public class Controller extends JPanel {
         chooseColorOnePlayer();
     }
 
+    /**
+     * pressButton is called from class View's action listener when a JButton on the game
+     * board is pressed. It utilizes Model to check for a valid move, insert the game symbol,
+     * and check for a winner.
+     * @param i the row of the button that was pressed
+     * @param j the column of the button that was pressed
+     */
     public void pressButton(int i, int j) {
         if (!model.validMove(i, j)) {
             if (turn % 2 == 1) {
@@ -249,16 +292,17 @@ public class Controller extends JPanel {
                         System.exit(0); // this will change
                     }
                     else {
-                        database.deleteAllStats();
+                        //database.deleteAllStats();
                         System.exit(0);
                     }
                 }
-
             }
             turn++;
         }
     }
-
+/**
+ * The main() method for the program. Creates a Model object and a Controller object.
+ */
     public static void main(String[] args) {
         Model model = new Model();
         Controller controller = new Controller(model);

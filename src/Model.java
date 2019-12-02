@@ -1,16 +1,27 @@
+/**
+ * Class Model contains all of the functionality for the game Go-Moku. It is used
+ * by class Controller to empty the board, check for a winner, and check for valid moves.
+ *
+ * @author Meghan Rogers, Nick Chua, Ewan Akins
+ * @see "No Borrowed Code"
+ *
+ */
 public class Model {
     private char[][] board;
     public static int WIN_COUNT = 5;
     public static int COLUMNS = 15;
     public static int ROWS = 15;
 
+    /**
+     * Constructor, creates 15x15 board of dashes.
+     */
     public Model() {
         board = new char[15][15];
         emptyBoard();
     }
 
     /**
-     * Empties the board or initializes the board to dashes
+     * Empties the board and initializes the board to dashes.
      */
     public void emptyBoard() {
         for (int i=0; i<15; i++) {
@@ -20,6 +31,12 @@ public class Model {
         }
     }
 
+    /**
+     * Inserts the symbol onto the board.
+     * @param i the row symbol placement
+     * @param j the column of the symbol placement
+     * @param turn the turn variable (int) used to indicate who's turn it is
+     */
     public void insertSymbol(int i, int j, int turn) {
         if (turn % 2 == 1) {
             board[i][j] = 'X';
@@ -29,6 +46,12 @@ public class Model {
         }
     }
 
+    /**
+     * Checks whether or not the move made is valid.
+     * @param i the row symbol placement
+     * @param j the column of the symbol placement
+     * @return boolean, true if the spot on the board is empty, false otherwise
+     */
     public boolean validMove(int i, int j) {
         if (board[i][j] != '-') {
             return false;
@@ -36,6 +59,13 @@ public class Model {
         return true;
     }
 
+    /**
+     * Checks for a winner of the game.
+     * @param i the row symbol placement
+     * @param j the column of the symbol placement
+     * @param turn the turn variable (int) used to indicate who's turn it is
+     * @return boolean, true if a winner is found, false otherwise
+     */
     public boolean checkWin(int i, int j, int turn) {
 
         char playerSymbol;

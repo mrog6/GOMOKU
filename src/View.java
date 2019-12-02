@@ -2,7 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * The View class extends JFrame in order to set up the GUI for Go-Moku, and it
+ * implements ActionListener so to obtain the location of a button pressed on the
+ * game board.
+ *
+ * @author Meghan Rogers, Nick Chua, Ewan Akins
+ * @see "No Borrowed Code"
+ *
+ */
 public class View extends JFrame implements ActionListener {
     private Controller controller;
     protected JLabel statusLabel;
@@ -21,6 +29,10 @@ public class View extends JFrame implements ActionListener {
     protected final String PLAYER_ONE_SYMBOL = "X";
     protected final String PLAYER_TWO_SYMBOL = "O";
 
+    /**
+     * Constructor for class View. Calls setupUI() and pack().
+     * @param controller a Controller object
+     */
     public View(Controller controller) {
         super("Go-Moku");
         this.controller = controller;
@@ -31,6 +43,12 @@ public class View extends JFrame implements ActionListener {
         pack();
     }
 
+    /**
+     * Sets up the User Interface using four separate JPanels.
+     * The topPanel contains the info boxes for each player, the gridPanel contains the
+     * game board, the statusLabel Panel contains the status label, and the lastPanel
+     * contains the buttons.
+     */
     public void setupUI() {
         contentPanel = (JPanel) getContentPane();
         banner = new JLabel("Welcome to Color Chooser!");
@@ -126,6 +144,11 @@ public class View extends JFrame implements ActionListener {
         contentPanel.add(lastPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * When a button on the game board is pressed, this actionPerformed is called
+     * to obtain the location of the button and call pressButton in the Controller class.
+     * @param e the ActionEvent
+     */
     public void actionPerformed(ActionEvent e) {
         for(int i = 0; i < 15; i++) {
             for(int j=0; j<15; j++) {
