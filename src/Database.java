@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * Class Database contains all of the necessary methods to save game stats into
  * a database. It can create a table, insert data into a table, delete data from
- * a table, read data from a table, and update the data in a table.
+ * a table, and read data from a table.
  *
  * @author Meghan Rogers, Nick Chua, Ewan Akins
  * @see "No Borrowed Code"
@@ -15,7 +15,6 @@ public class Database {
     static final String CONNECTION_URL = "jdbc:sqlite:databases/" + DATABASE_NAME;
     static final String GAME_STATS = "gameStats";
     static final String ID = "id";
-
     Connection connection;
 
     /**
@@ -87,27 +86,6 @@ public class Database {
             }
         }
         return statsList;
-    }
-
-    /**
-     * Updates the game stats for each player when necessary.
-     * @param id the location of the row to be updated in the database
-     * @param newGameStats the game stats that are to be saved
-     */
-    public void updateGameStats(int id, GameStats newGameStats) {
-        // update record with id to have new info stored in newContact
-        // UPDATE tableContacts SET name='SPIKE', phoneNumber='208-208-2082' WHERE id=1
-        String sqlUpdate = "UPDATE " + GAME_STATS + " SET " +
-                "' WHERE " + ID + "=" + id;
-        System.out.println(sqlUpdate);
-        if (connection != null) {
-            try {
-                Statement statement = connection.createStatement();
-                statement.execute(sqlUpdate);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**

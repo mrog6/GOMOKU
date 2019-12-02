@@ -218,7 +218,7 @@ public class Controller extends JPanel {
             else if (turn % 2 == 0) {
                 view.statusLabel.setText("Invalid Move. " + view.playerTwoName.getText() + "'s turn");
             }
-            return;
+            //return; why is this here?
         }
         else {
             model.insertSymbol(i, j, turn);
