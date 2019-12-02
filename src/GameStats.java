@@ -16,10 +16,10 @@ public class GameStats {
         id = -1;
     }
 
-    @Override
     /**
      * toString() returns the id number.
      */
+    @Override
     public String toString() {
         return id + " ";
     }

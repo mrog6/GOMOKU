@@ -41,12 +41,12 @@ public class Controller extends JPanel {
         openingMessage();
 
         view.resetButton.addActionListener(new ActionListener() {
-            @Override
             /**
              * Called when the Reset Names and Stats button is pressed, this action listener
              * empties the board and initializes all player stats to zero. Then, it deletes the
              * current player names and re-prompts the openingMessage().
              */
+            @Override
             public void actionPerformed(ActionEvent e) {
                 //database.deleteAllStats();
                 view.statusLabel.setForeground(Color.BLACK);
@@ -72,22 +72,22 @@ public class Controller extends JPanel {
         });
 
         view.saveExitButton.addActionListener(new ActionListener() {
-            @Override
             /**
              * Called when the Save and Exit button is pressed, this action listener
              * saves the current game stats for each player.
              */
+            @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
         view.quitButton.addActionListener(new ActionListener() {
-            @Override
             /**
              * Called when the Quit button is pressed, this action listener
              * deletes the current stats from the database and exits the program.
              */
+            @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 //database.deleteAllStats();
                 System.exit(0);
