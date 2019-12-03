@@ -2,14 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * The Controller class handles the action Listeners for all JButtons and
  * controls what the View class displays on the GUI. It contains methods to
  * play with one player or two players as well as methods to choose colors
  * and display dialogs.
- *
- * History:
  *
  * @author Meghan Rogers, Nick Chua, Ewan Akins
  * @see "No Borrowed Code"
@@ -30,6 +29,7 @@ public class Controller extends JPanel {
     protected int playerOneLosses = 0;
     protected int playerTwoLosses = 0;
 
+
     /**
      * The constructor creates a View object to begin the game and displays
      * the opening message. It also holds the action listeners for three JButtons.
@@ -37,7 +37,9 @@ public class Controller extends JPanel {
      */
     public Controller(Model model) {
         this.model = model;
+        this.database = new Database();
         this.view = new View(this);
+        List<GameStats> statsList = database.getAllGameStatsList();
         openingMessage();
 
         view.resetButton.addActionListener(new ActionListener() {
@@ -48,7 +50,7 @@ public class Controller extends JPanel {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                //database.deleteAllStats();
+                database.deleteAllStats();
                 view.statusLabel.setForeground(Color.BLACK);
                 model.emptyBoard();
                 for (int k = 0; k < 15; k++) {
@@ -78,7 +80,8 @@ public class Controller extends JPanel {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                addStatsToDatabase();
+                System.exit(0);
             }
         });
 
@@ -89,7 +92,7 @@ public class Controller extends JPanel {
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //database.deleteAllStats();
+                database.deleteAllStats();
                 System.exit(0);
             }
         });
@@ -289,16 +292,28 @@ public class Controller extends JPanel {
                     int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
                             "Save and Close", JOptionPane.YES_NO_OPTION);
                     if (saveGame == JOptionPane.YES_OPTION) {
-                        System.exit(0); // this will change
+                        addStatsToDatabase();
+                        System.exit(0);
                     }
                     else {
-                        //database.deleteAllStats();
+                        database.deleteAllStats();
                         System.exit(0);
                     }
                 }
             }
             turn++;
         }
+    }
+    /**
+     * Adds the current game stats to the database.
+     */
+    public void addStatsToDatabase() {
+        String color1 = String.valueOf(newColor1.getRGB());
+        String color2 = String.valueOf(newColor2.getRGB());
+        GameStats newInsert1 = new GameStats(playerOne, color1, playerOneLosses, playerOneWins);
+        GameStats newInsert2 = new GameStats(playerTwo, color2, playerTwoLosses, playerTwoWins);
+        database.insertStats(newInsert1);
+        database.insertStats(newInsert2);
     }
 /**
  * The main() method for the program. Creates a Model object and a Controller object.

@@ -1,6 +1,9 @@
+import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.SocketHandler;
+
 /**
  * Class Database contains all of the necessary methods to save game stats into
  * a database. It can create a table, insert data into a table, delete data from
@@ -15,16 +18,20 @@ public class Database {
     static final String CONNECTION_URL = "jdbc:sqlite:databases/" + DATABASE_NAME;
     static final String GAME_STATS = "gameStats";
     static final String ID = "id";
+    static final String NAME = "name";
+    static final String COLOR = "color";
+    static final String LOSSES = "losses";
+    static final String WINS = "wins";
     Connection connection;
 
     /**
      * The constructor gets the connection to the database and then calls
      * createStatsTable().
      */
-//    public Database() {
-//        getConnection();
-//        createStatsTable();
-//    }
+    public Database() {
+        getConnection();
+        createStatsTable();
+    }
 
     /**
      * Creates a table that holds game stats. The stats include player wins/losses as well as
@@ -33,7 +40,10 @@ public class Database {
     public void createStatsTable() {
         String sqlCreate = "CREATE TABLE " + GAME_STATS + "(" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                ")";
+                NAME + " TEXT, " +
+                COLOR + " TEXT, " +
+                LOSSES + " TEXT, " +
+                WINS + " TEXT)";
         System.out.println(sqlCreate);
         if (connection != null && !tableExists()) {
             try {
@@ -51,8 +61,10 @@ public class Database {
      */
     public void insertStats(GameStats gameStats) {
         String sqlInsert = "INSERT INTO " + GAME_STATS + " VALUES(null, '" +
-//                gameStats.getName() + "', '" +
-                "')";
+                gameStats.getName() + "', '" +
+                gameStats.getColor() + "', '" +
+                gameStats.getLosses() + "', '" +
+                gameStats.getWins() + "')";
         System.out.println(sqlInsert);
         if (connection != null) {
             try {
@@ -68,7 +80,7 @@ public class Database {
      * Reads all of the game stats from the database.
      * @return ArrayList statsList, a list of the game stats from the database
      */
-    public List<GameStats> getAllContactsList() {
+    public List<GameStats> getAllGameStatsList() {
         List<GameStats> statsList = new ArrayList<>();
         String sqlSelect = "SELECT * FROM " + GAME_STATS;
         System.out.println(sqlSelect);
@@ -78,7 +90,11 @@ public class Database {
                 ResultSet resultSet = statement.executeQuery(sqlSelect);
                 while (resultSet.next()) {
                     int id = resultSet.getInt(ID);
-                    GameStats gameStats = new GameStats();
+                    String name = resultSet.getString(NAME);
+                    String color = resultSet.getString(COLOR);
+                    int losses = resultSet.getInt(LOSSES);
+                    int wins = resultSet.getInt(WINS);
+                    GameStats gameStats = new GameStats(name, color, losses, wins);
                     statsList.add(gameStats);
                 }
             } catch (SQLException e) {
