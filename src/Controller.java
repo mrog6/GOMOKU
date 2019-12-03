@@ -28,6 +28,7 @@ public class Controller extends JPanel {
     protected int playerTwoWins = 0;
     protected int playerOneLosses = 0;
     protected int playerTwoLosses = 0;
+    protected boolean computerPlaying = false;
 
     /**
      * The constructor creates a View object to begin the game and displays
@@ -56,6 +57,8 @@ public class Controller extends JPanel {
                     playerTwoLosses = stats.getLosses();
                     playerTwoWins = stats.getWins();
                     newColor2 = new Color(Integer.parseInt(stats.getColor()));
+                    if(stats.getName().equals("Computer"))
+                        computerPlaying = true;
                 }
                 counter++;
             }
@@ -186,8 +189,10 @@ public class Controller extends JPanel {
         if (choice == JOptionPane.YES_OPTION) {
             twoPlayerGame();
         }
-        else if (choice == JOptionPane.NO_OPTION)
+        else if (choice == JOptionPane.NO_OPTION) {
+            computerPlaying = true;
             onePlayerGame();
+        }
         else
             System.exit(0);
     }
@@ -242,95 +247,113 @@ public class Controller extends JPanel {
      * @param j the column of the button that was pressed
      */
     public void pressButton(int i, int j) {
-        if (!model.validMove(i, j)) {
-            if (turn % 2 == 1) {
-                view.statusLabel.setText("Invalid Move. " + view.playerOneName.getText() + "'s turn");
-            }
-            else if (turn % 2 == 0) {
-                view.statusLabel.setText("Invalid Move. " + view.playerTwoName.getText() + "'s turn");
-            }
-            //return; why is this here?
-        }
-        else {
-            model.insertSymbol(i, j, turn);
-
-            if (turn % 2 == 1) {
-                view.buttons[i][j].setText("X");
-                view.statusLabel.setForeground(newColor2);
-                view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
-                view.buttons[i][j].setForeground(newColor1);
-                view.buttons[i][j].setBackground(newColor1);
-            }
-            else if (turn % 2 == 0) {
-                view.buttons[i][j].setText("O");
-                view.statusLabel.setForeground(newColor1);
-                view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
-                view.buttons[i][j].setForeground(newColor2);
-                view.buttons[i][j].setBackground(newColor2);
-            }
-
-            if (model.checkWin(i, j, turn)) {
-                System.out.println("WINNER");
-                for (int x = 0; x<15; x++) {
-                    for (int y = 0; y<15; y++) {
-                        view.buttons[x][y].setEnabled(false);
-                    }
+        if (computerPlaying) {
+            if (!model.validMove(i, j)) {
+                if (turn % 2 == 1) {
+                    view.statusLabel.setText("Invalid Move. " + view.playerOneName.getText() + "'s turn");
                 }
+            }
+            else {
+                model.insertSymbol(i, j, turn);
 
                 if (turn % 2 == 1) {
-                    view.statusLabel.setForeground(newColor1);
-                    playerOneWins++;
-                    playerTwoLosses++;
-                    view.statusLabel.setText(view.playerOneName.getText() + " Wins!");
-                    view.playerOneWins.setText(playerOneWins + " ");
-                    view.playerTwoLosses.setText(playerTwoLosses + " ");
+                    view.buttons[i][j].setText("X");
+                    view.statusLabel.setForeground(newColor2);
+                    view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                    view.buttons[i][j].setForeground(newColor1);
+                    view.buttons[i][j].setBackground(newColor1);
                 }
                 else if (turn % 2 == 0) {
-                    view.buttons[i][j].setText("O");
-                    view.statusLabel.setForeground(newColor2);
-                    playerTwoWins++;
-                    playerOneLosses++;
-                    view.statusLabel.setText(view.playerTwoName.getText() + " Wins!");
-                    view.buttons[i][j].setForeground(newColor2);
-                    view.playerTwoWins.setText(playerTwoWins + " ");
-                    view.playerOneLosses.setText(playerOneLosses + " ");
-                }
-                int newGame = JOptionPane.showConfirmDialog(null, "Do you want to play again?",
-                        "Game Over", JOptionPane.YES_NO_OPTION);
-                if (newGame == JOptionPane.YES_OPTION) {
-                    model.emptyBoard();
-                    for (int k = 0; k < 15; k++) {
-                        for (int l = 0; l < 15; l++) {
-                            view.buttons[k][l].setText(" ");
-                            view.buttons[k][l].setForeground(Color.WHITE);
-                            view.buttons[k][l].setBackground(Color.WHITE);
-                            view.buttons[k][l].setEnabled(true);
-                        }
-                    }
-                    if (turn % 2 == 1) {
-                        view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
-                        view.statusLabel.setForeground(newColor1);
-                    }
-                    else if (turn % 2 == 0) {
-                        view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
-                        view.statusLabel.setForeground(newColor1);
-                    }
-                }
-                else {
-                    int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
-                            "Save and Close", JOptionPane.YES_NO_OPTION);
-                    if (saveGame == JOptionPane.YES_OPTION) {
-                        addStatsToDatabase();
-                        System.exit(0);
-                    }
-                    else {
-                        database.deleteAllStats();
-                        System.exit(0);
-                    }
+                    view.statusLabel.setForeground(newColor1);
+                    view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                    System.out.println("this is where the computer plays");
                 }
             }
-            turn++;
         }
+        else {
+            if (!model.validMove(i, j)) {
+                if (turn % 2 == 1) {
+                    view.statusLabel.setText("Invalid Move. " + view.playerOneName.getText() + "'s turn");
+                } else if (turn % 2 == 0) {
+                    view.statusLabel.setText("Invalid Move. " + view.playerTwoName.getText() + "'s turn");
+                }
+            } else {
+                model.insertSymbol(i, j, turn);
+
+                if (turn % 2 == 1) {
+                    view.buttons[i][j].setText("X");
+                    view.statusLabel.setForeground(newColor2);
+                    view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                    view.buttons[i][j].setForeground(newColor1);
+                    view.buttons[i][j].setBackground(newColor1);
+                } else if (turn % 2 == 0) {
+                    view.buttons[i][j].setText("O");
+                    view.statusLabel.setForeground(newColor1);
+                    view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                    view.buttons[i][j].setForeground(newColor2);
+                    view.buttons[i][j].setBackground(newColor2);
+                }
+            }
+        }
+
+        if (model.checkWin(i, j, turn)) {
+            System.out.println("WINNER");
+            for (int x = 0; x < 15; x++) {
+                for (int y = 0; y < 15; y++) {
+                    view.buttons[x][y].setEnabled(false);
+                }
+            }
+
+            if (turn % 2 == 1) {
+                view.statusLabel.setForeground(newColor1);
+                playerOneWins++;
+                playerTwoLosses++;
+                view.statusLabel.setText(view.playerOneName.getText() + " Wins!");
+                view.playerOneWins.setText(playerOneWins + " ");
+                view.playerTwoLosses.setText(playerTwoLosses + " ");
+            } else if (turn % 2 == 0) {
+                view.buttons[i][j].setText("O");
+                view.statusLabel.setForeground(newColor2);
+                playerTwoWins++;
+                playerOneLosses++;
+                view.statusLabel.setText(view.playerTwoName.getText() + " Wins!");
+                view.buttons[i][j].setForeground(newColor2);
+                view.playerTwoWins.setText(playerTwoWins + " ");
+                view.playerOneLosses.setText(playerOneLosses + " ");
+            }
+
+            int newGame = JOptionPane.showConfirmDialog(null, "Do you want to play again?",
+                    "Game Over", JOptionPane.YES_NO_OPTION);
+            if (newGame == JOptionPane.YES_OPTION) {
+                model.emptyBoard();
+                for (int k = 0; k < 15; k++) {
+                    for (int l = 0; l < 15; l++) {
+                        view.buttons[k][l].setText(" ");
+                        view.buttons[k][l].setForeground(Color.WHITE);
+                        view.buttons[k][l].setBackground(Color.WHITE);
+                        view.buttons[k][l].setEnabled(true);
+                    }
+                }
+                if (turn % 2 == 1) {
+                    view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                    view.statusLabel.setForeground(newColor1);
+                } else if (turn % 2 == 0) {
+                    view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                    view.statusLabel.setForeground(newColor1);
+                }
+            } else {
+                int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
+                        "Save and Close", JOptionPane.YES_NO_OPTION);
+                if (saveGame == JOptionPane.YES_OPTION) {
+                    addStatsToDatabase();
+                    System.exit(0);
+                } else {
+                    database.deleteAllStats();
+                    System.exit(0);
+                }
+            }
+        }
+        turn++;
     }
 
     /**

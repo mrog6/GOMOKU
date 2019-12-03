@@ -82,88 +82,248 @@ public class Model {
         //HORIZONTAL
         int leftBound = 0;
         int rightBound = 0;
-        if (j - WIN_COUNT >= 0)
-            leftBound = j - WIN_COUNT;
+        if (j - WIN_COUNT - 1 >= 0)
+            leftBound = j - WIN_COUNT -1;
         else
             leftBound = 0;
 
-        if (j + WIN_COUNT <= COLUMNS - 1)
-            rightBound = j + WIN_COUNT;
+        if (j + WIN_COUNT - 1 <= COLUMNS - 1)
+            rightBound = j + WIN_COUNT -1;
         else
             rightBound = COLUMNS - 1;
 
         int jTraverse = j;
 
-        while (jTraverse >= leftBound && consecutiveCounter < WIN_COUNT) {
-            if (board[i][jTraverse] == playerSymbol) {
-                consecutiveCounter++;
-                jTraverse--;
+        if (j == 0) {
+            while (jTraverse <= rightBound && consecutiveCounter < WIN_COUNT) {
+                if (board[i][jTraverse] == playerSymbol) {
+                    consecutiveCounter++;
+                    jTraverse++;
+                }
+                else {
+                    break;
+                }
             }
-            else {
-                jTraverse = j+1;
-                break;
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
             }
         }
-
-        while (jTraverse <= rightBound && consecutiveCounter < WIN_COUNT) {
-            if (board[i][jTraverse] == playerSymbol) {
-                consecutiveCounter++;
-                jTraverse++;
+        else {
+            while (jTraverse >= leftBound && consecutiveCounter < WIN_COUNT) {
+                if (board[i][jTraverse] == playerSymbol) {
+                    consecutiveCounter++;
+                    if (jTraverse != 0) {
+                        jTraverse--;
+                    }
+                    else {
+                        jTraverse = j+1;
+                        break;
+                    }
+                }
+                else {
+                    jTraverse = j+1;
+                    break;
+                }
             }
-            else {
-                break;
+            while (jTraverse <= rightBound && consecutiveCounter < WIN_COUNT) {
+                if (board[i][jTraverse] == playerSymbol) {
+                    consecutiveCounter++;
+                    jTraverse++;
+                }
+                else {
+                    break;
+                }
             }
-        }
 
-        if (consecutiveCounter >= WIN_COUNT) {
-            return true;
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
+            }
         }
 
         //VERTICAL
 
         consecutiveCounter = 0;
-        int upperBound = 0;
-        int lowerBound = 0;
+        int smallerBound = 0;
+        int largerBound = 0;
 
-        if (i - WIN_COUNT >= 0)
-            upperBound = i - WIN_COUNT;
+        if (i - WIN_COUNT - 1 >= 0)
+            smallerBound = i - WIN_COUNT - 1;
         else
-            upperBound = 0;
+            smallerBound = 0;
 
-        if (i + WIN_COUNT <= ROWS - 1)
-            lowerBound = i + WIN_COUNT;
+        if (i + WIN_COUNT - 1 <= ROWS - 1)
+            largerBound = i + WIN_COUNT - 1;
         else
-            lowerBound = ROWS - 1;
+            largerBound = ROWS - 1;
 
         int iTraverse = i;
 
-        while (iTraverse >= upperBound && consecutiveCounter < WIN_COUNT) {
-            if (board[iTraverse][j] == playerSymbol) {
-                consecutiveCounter++;
-                iTraverse--;
+        if (iTraverse == 0) {
+            while (iTraverse <= largerBound && consecutiveCounter < WIN_COUNT) {
+                if (board[iTraverse][j] == playerSymbol) {
+                    consecutiveCounter++;
+                    iTraverse++;
+                }
+                else {
+                    break;
+                }
             }
-            else {
-                iTraverse = i + 1;
-                break;
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
+            }
+        }
+        else {
+            while (iTraverse >= smallerBound && consecutiveCounter < WIN_COUNT) {
+                if (board[iTraverse][j] == playerSymbol) {
+                    consecutiveCounter++;
+                    if (iTraverse != 0) {
+                        iTraverse--;
+                    }
+                    else {
+                        iTraverse = i+1;
+                        break;
+                    }
+                }
+                else {
+                    iTraverse = i+1;
+                    break;
+                }
+            }
+
+            while (iTraverse <= largerBound && consecutiveCounter < WIN_COUNT) {
+                if (board[iTraverse][j] == playerSymbol) {
+                    consecutiveCounter++;
+                    iTraverse++;
+                }
+                else {
+                    break;
+                }
+            }
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
             }
         }
 
-        while (iTraverse <= lowerBound && consecutiveCounter < WIN_COUNT) {
-            if (board[iTraverse][j] == playerSymbol) {
-                consecutiveCounter++;
-                iTraverse++;
+        //DIAGONAL " / " direction
+
+        consecutiveCounter = 0;
+        iTraverse = i;
+        jTraverse = j;
+
+        if (jTraverse == 0 || iTraverse == 14) {
+            while (iTraverse >= 0 && jTraverse < COLUMNS && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    iTraverse--;
+                    jTraverse++;
+                    consecutiveCounter++;
+                }
+                else {
+                    break;
+                }
             }
-            else {
-                break;
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
+            }
+        }
+        else {
+            while (iTraverse < ROWS && jTraverse >= 0 && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    consecutiveCounter++;
+                    if (iTraverse != 14 && jTraverse != 0) {
+                        iTraverse++;
+                        jTraverse--;
+                    }
+                    else {
+                        iTraverse = i-1;
+                        jTraverse = j+1;
+                        break;
+                    }
+                }
+                else {
+                    iTraverse = i-1;
+                    jTraverse = j+1;
+                    break;
+                }
+            }
+
+            while (iTraverse >= 0 && jTraverse < COLUMNS && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    iTraverse--;
+                    jTraverse++;
+                    consecutiveCounter++;
+                }
+                else {
+                    break;
+                }
+            }
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
             }
         }
 
-        if (consecutiveCounter >= WIN_COUNT) {
-            return true;
+        //DIAGONAL " \ " direction
+
+        consecutiveCounter = 0;
+        iTraverse = i;
+        jTraverse = j;
+
+        if (jTraverse == 14 || iTraverse == 14) {
+            while (jTraverse < COLUMNS && iTraverse < ROWS && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    jTraverse++;
+                    iTraverse++;
+                    consecutiveCounter++;
+                }
+                else {
+                    break;
+                }
+            }
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
+            }
         }
+        else {
+            while (jTraverse >= 0 && iTraverse >= 0 && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    consecutiveCounter++;
+                    if (jTraverse != 0 && iTraverse != 0) {
+                        jTraverse--;
+                        iTraverse--;
+                    }
+                    else {
+                        jTraverse = j+1;
+                        iTraverse = i+1;
+                        break;
+                    }
+                }
+                else {
+                    jTraverse = j+1;
+                    iTraverse = i+1;
+                    break;
+                }
+            }
 
-        //DIAGONAL
+            while (jTraverse < COLUMNS && iTraverse < ROWS && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    jTraverse++;
+                    iTraverse++;
+                    consecutiveCounter++;
+                }
+                else {
+                    break;
+                }
+            }
 
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
+            }
+        }
 
         return false;
     }
