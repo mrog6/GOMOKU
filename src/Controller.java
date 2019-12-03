@@ -255,17 +255,22 @@ public class Controller extends JPanel {
             }
             else {
                 model.insertSymbol(i, j, turn);
-
-                if (turn % 2 == 1) {
-                    view.buttons[i][j].setText("X");
-                    view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
-                    view.buttons[i][j].setForeground(newColor1);
-                    view.buttons[i][j].setBackground(newColor1);
-                }
-                else if (turn % 2 == 0) {
-                    view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
-                    System.out.println("this is where the computer plays");
-                }
+                turn++;
+                view.buttons[i][j].setText("X");
+                view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                view.buttons[i][j].setForeground(newColor1);
+                view.buttons[i][j].setBackground(newColor1);
+                view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                int x;
+                int y;
+                do {
+                    Point temp = model.computerChoice(i, j);
+                    x = (int) temp.getX();
+                    y = (int) temp.getY();
+                } while (!model.validMove(x, y));
+                view.buttons[x][y].setText("O");
+                model.insertSymbol(x, y, turn);
+                turn++;
             }
         }
         else {

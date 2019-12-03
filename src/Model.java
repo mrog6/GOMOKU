@@ -329,7 +329,6 @@ public class Model {
 
     public Point computerChoice(int i, int j) {
         Point aiChoice;
-
         Random rand = new Random();
 
         //Randomizes a spot near the last symbol placed.
