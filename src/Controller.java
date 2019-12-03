@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +28,6 @@ public class Controller extends JPanel {
     protected int playerTwoWins = 0;
     protected int playerOneLosses = 0;
     protected int playerTwoLosses = 0;
-    //public ArrayList<GameStats> myStats = new ArrayList<>();
 
     /**
      * The constructor creates a View object to begin the game and displays
@@ -362,6 +360,7 @@ public class Controller extends JPanel {
         database.insertStats(newInsert1);
         database.insertStats(newInsert2);
     }
+
 /**
  * The main() method for the program. Creates a Model object and a Controller object.
  */

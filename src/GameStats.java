@@ -42,35 +42,27 @@ public class GameStats {
         return id + " ";
     }
 
-    public String getColor() {
-        return color;
-    }
+    /**
+     * Getter for the field color.
+     * @return String color, the string representation of the color chosen by a player
+     */
+    public String getColor() { return color; }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+    /**
+     * Getter for the field name.
+     * @return String name, the name of a player
+     */
+    public String getName() { return name; }
 
-    public String getName() {
-        return name;
-    }
+    /**
+     * Getter for the field losses.
+     * @return int losses, the number of losses a player has
+     */
+    public int getLosses() { return losses; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getLosses() {
-        return losses;
-    }
-
-    public void setLosses(int losses) {
-        this.losses = losses;
-    }
-
-    public int getWins() {
-        return wins;
-    }
-
-    public void setWins(int wins) {
-        this.wins = wins;
-    }
+    /**
+     * Getter for the field wins.
+     * @return int wins, the number of wins a player has
+     */
+    public int getWins() { return wins; }
 }
