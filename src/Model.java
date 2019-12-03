@@ -236,7 +236,65 @@ public class Model {
             }
         }
 
+        //DIAGONAL " \ " direction
+
+        consecutiveCounter = 0;
+        iTraverse = i;
+        jTraverse = j;
+
+        if (jTraverse == 14 || iTraverse == 14) {
+            while (jTraverse < COLUMNS && iTraverse < ROWS && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    jTraverse++;
+                    iTraverse++;
+                    consecutiveCounter++;
+                }
+                else {
+                    break;
+                }
+            }
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
+            }
+        }
+        else {
+            while (jTraverse >= 0 && iTraverse >= 0 && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    consecutiveCounter++;
+                    if (jTraverse != 0 && iTraverse != 0) {
+                        jTraverse--;
+                        iTraverse--;
+                    }
+                    else {
+                        jTraverse = j+1;
+                        iTraverse = i+1;
+                        break;
+                    }
+                }
+                else {
+                    jTraverse = j+1;
+                    iTraverse = i+1;
+                    break;
+                }
+            }
+
+            while (jTraverse < COLUMNS && iTraverse < ROWS && consecutiveCounter <= 5) {
+                if (board[iTraverse][jTraverse] == playerSymbol) {
+                    jTraverse++;
+                    iTraverse++;
+                    consecutiveCounter++;
+                }
+                else {
+                    break;
+                }
+            }
+
+            if (consecutiveCounter >= WIN_COUNT) {
+                return true;
+            }
+        }
+
         return false;
     }
 }
-
