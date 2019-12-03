@@ -57,7 +57,8 @@ public class Controller extends JPanel {
     public void chooseColor() {
         newColor1 = JColorChooser.showDialog(null,
                 playerOne + ", choose your symbol color!",
-                view.banner.getBackground());
+                null);
+                System.out.println(newColor1);
         if (newColor1 == null || newColor1.equals(c)) {
             view.playerOneName.setForeground(Color.BLACK);
         }
@@ -67,7 +68,7 @@ public class Controller extends JPanel {
 
         newColor2 = JColorChooser.showDialog(null,
                 playerTwo + ", choose your symbol color!",
-                view.banner.getBackground());
+                null);
         if (newColor2 == null || newColor2.equals(c)) {
             view.playerTwoName.setForeground(Color.BLACK);
         }
