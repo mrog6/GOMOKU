@@ -1,3 +1,6 @@
+import java.awt.*;
+import java.util.Random;
+
 public class Model {
     private char[][] board;
     public static int WIN_COUNT = 5;
@@ -296,5 +299,38 @@ public class Model {
         }
 
         return false;
+    }
+
+    public Point computerChoice(int i, int j) {
+        Point aiChoice;
+
+        Random rand = new Random();
+
+        //Randomizes a spot near the last symbol placed.
+        //Format:
+        /*
+        0 1 2
+        7 x 3
+        6 5 4
+         */
+
+        int randomSpot = rand.nextInt(8);
+
+        if (randomSpot==0)
+            return aiChoice = new Point(i-1, j-1);
+        else if (randomSpot==1)
+            return aiChoice = new Point(i-1, j);
+        else if (randomSpot==2)
+            return aiChoice = new Point(i-1, j+1);
+        else if (randomSpot==3)
+            return aiChoice = new Point(i, j+1);
+        else if (randomSpot==4)
+            return aiChoice = new Point(i+1, j+1);
+        else if (randomSpot==5)
+            return aiChoice = new Point(i+1, j);
+        else if (randomSpot==6)
+            return aiChoice = new Point(i+1, j-1);
+        else //randomSpot==7
+            return aiChoice = new Point(i, j-1);
     }
 }
