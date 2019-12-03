@@ -187,6 +187,7 @@ public class Controller extends JPanel {
                 null, options,
                 options[0]);
         if (choice == JOptionPane.YES_OPTION) {
+            computerPlaying = false;
             twoPlayerGame();
         }
         else if (choice == JOptionPane.NO_OPTION) {
