@@ -142,7 +142,6 @@ public class Model {
         }
 
         //VERTICAL
-
         consecutiveCounter = 0;
         int smallerBound = 0;
         int largerBound = 0;
@@ -208,7 +207,6 @@ public class Model {
         }
 
         //DIAGONAL " / " direction
-
         consecutiveCounter = 0;
         iTraverse = i;
         jTraverse = j;
@@ -267,7 +265,6 @@ public class Model {
         }
 
         //DIAGONAL " \ " direction
-
         consecutiveCounter = 0;
         iTraverse = i;
         jTraverse = j;
@@ -324,7 +321,6 @@ public class Model {
                 return true;
             }
         }
-
         return false;
     }
 }

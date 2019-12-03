@@ -258,13 +258,11 @@ public class Controller extends JPanel {
 
                 if (turn % 2 == 1) {
                     view.buttons[i][j].setText("X");
-                    view.statusLabel.setForeground(newColor2);
                     view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
                     view.buttons[i][j].setForeground(newColor1);
                     view.buttons[i][j].setBackground(newColor1);
                 }
                 else if (turn % 2 == 0) {
-                    view.statusLabel.setForeground(newColor1);
                     view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
                     System.out.println("this is where the computer plays");
                 }
@@ -282,13 +280,11 @@ public class Controller extends JPanel {
 
                 if (turn % 2 == 1) {
                     view.buttons[i][j].setText("X");
-                    view.statusLabel.setForeground(newColor2);
                     view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
                     view.buttons[i][j].setForeground(newColor1);
                     view.buttons[i][j].setBackground(newColor1);
                 } else if (turn % 2 == 0) {
                     view.buttons[i][j].setText("O");
-                    view.statusLabel.setForeground(newColor1);
                     view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
                     view.buttons[i][j].setForeground(newColor2);
                     view.buttons[i][j].setBackground(newColor2);
@@ -326,6 +322,7 @@ public class Controller extends JPanel {
                     "Game Over", JOptionPane.YES_NO_OPTION);
             if (newGame == JOptionPane.YES_OPTION) {
                 model.emptyBoard();
+                view.statusLabel.setForeground(Color.BLACK);
                 for (int k = 0; k < 15; k++) {
                     for (int l = 0; l < 15; l++) {
                         view.buttons[k][l].setText(" ");
@@ -336,10 +333,8 @@ public class Controller extends JPanel {
                 }
                 if (turn % 2 == 1) {
                     view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
-                    view.statusLabel.setForeground(newColor1);
                 } else if (turn % 2 == 0) {
                     view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
-                    view.statusLabel.setForeground(newColor1);
                 }
             } else {
                 int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
