@@ -292,63 +292,63 @@ public class Controller extends JPanel {
             }
         }
 
-        if (model.checkWin(i, j, turn)) {
-            System.out.println("WINNER");
-            for (int x = 0; x < 15; x++) {
-                for (int y = 0; y < 15; y++) {
-                    view.buttons[x][y].setEnabled(false);
-                }
-            }
-
-            if (turn % 2 == 1) {
-                view.statusLabel.setForeground(newColor1);
-                playerOneWins++;
-                playerTwoLosses++;
-                view.statusLabel.setText(view.playerOneName.getText() + " Wins!");
-                view.playerOneWins.setText(playerOneWins + " ");
-                view.playerTwoLosses.setText(playerTwoLosses + " ");
-            } else if (turn % 2 == 0) {
-                view.buttons[i][j].setText("O");
-                view.statusLabel.setForeground(newColor2);
-                playerTwoWins++;
-                playerOneLosses++;
-                view.statusLabel.setText(view.playerTwoName.getText() + " Wins!");
-                view.buttons[i][j].setForeground(newColor2);
-                view.playerTwoWins.setText(playerTwoWins + " ");
-                view.playerOneLosses.setText(playerOneLosses + " ");
-            }
-
-            int newGame = JOptionPane.showConfirmDialog(null, "Do you want to play again?",
-                    "Game Over", JOptionPane.YES_NO_OPTION);
-            if (newGame == JOptionPane.YES_OPTION) {
-                model.emptyBoard();
-                view.statusLabel.setForeground(Color.BLACK);
-                for (int k = 0; k < 15; k++) {
-                    for (int l = 0; l < 15; l++) {
-                        view.buttons[k][l].setText(" ");
-                        view.buttons[k][l].setForeground(Color.WHITE);
-                        view.buttons[k][l].setBackground(Color.WHITE);
-                        view.buttons[k][l].setEnabled(true);
+            if (model.checkWin(i, j, turn)) {
+                System.out.println("WINNER");
+                for (int x = 0; x < 15; x++) {
+                    for (int y = 0; y < 15; y++) {
+                        view.buttons[x][y].setEnabled(false);
                     }
                 }
+
                 if (turn % 2 == 1) {
-                    view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                    view.statusLabel.setForeground(newColor1);
+                    playerOneWins++;
+                    playerTwoLosses++;
+                    view.statusLabel.setText(view.playerOneName.getText() + " Wins!");
+                    view.playerOneWins.setText(playerOneWins + " ");
+                    view.playerTwoLosses.setText(playerTwoLosses + " ");
                 } else if (turn % 2 == 0) {
-                    view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                    view.buttons[i][j].setText("O");
+                    view.statusLabel.setForeground(newColor2);
+                    playerTwoWins++;
+                    playerOneLosses++;
+                    view.statusLabel.setText(view.playerTwoName.getText() + " Wins!");
+                    view.buttons[i][j].setForeground(newColor2);
+                    view.playerTwoWins.setText(playerTwoWins + " ");
+                    view.playerOneLosses.setText(playerOneLosses + " ");
                 }
-            } else {
-                int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
-                        "Save and Close", JOptionPane.YES_NO_OPTION);
-                if (saveGame == JOptionPane.YES_OPTION) {
-                    addStatsToDatabase();
-                    System.exit(0);
+
+                int newGame = JOptionPane.showConfirmDialog(null, "Do you want to play again?",
+                        "Game Over", JOptionPane.YES_NO_OPTION);
+                if (newGame == JOptionPane.YES_OPTION) {
+                    model.emptyBoard();
+                    view.statusLabel.setForeground(Color.BLACK);
+                    for (int k = 0; k < 15; k++) {
+                        for (int l = 0; l < 15; l++) {
+                            view.buttons[k][l].setText(" ");
+                            view.buttons[k][l].setForeground(Color.WHITE);
+                            view.buttons[k][l].setBackground(Color.WHITE);
+                            view.buttons[k][l].setEnabled(true);
+                        }
+                    }
+                    if (turn % 2 == 1) {
+                        view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                    } else if (turn % 2 == 0) {
+                        view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                    }
                 } else {
-                    database.deleteAllStats();
-                    System.exit(0);
+                    int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
+                            "Save and Close", JOptionPane.YES_NO_OPTION);
+                    if (saveGame == JOptionPane.YES_OPTION) {
+                        addStatsToDatabase();
+                        System.exit(0);
+                    } else {
+                        database.deleteAllStats();
+                        System.exit(0);
+                    }
                 }
             }
-        }
-        turn++;
+            turn++;
     }
 
     /**
