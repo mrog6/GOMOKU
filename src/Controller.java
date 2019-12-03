@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Controller class handles the action Listeners for all JButtons and
@@ -28,7 +29,7 @@ public class Controller extends JPanel {
     protected int playerTwoWins = 0;
     protected int playerOneLosses = 0;
     protected int playerTwoLosses = 0;
-
+    //public ArrayList<GameStats> myStats = new ArrayList<>();
 
     /**
      * The constructor creates a View object to begin the game and displays
@@ -40,7 +41,43 @@ public class Controller extends JPanel {
         this.database = new Database();
         this.view = new View(this);
         List<GameStats> statsList = database.getAllGameStatsList();
-        openingMessage();
+        if (statsList.isEmpty()) {
+            openingMessage();
+        }
+        else {
+            int counter = 0;
+            for (GameStats stats : statsList) {
+                if (counter == 0) {
+                    playerOne = stats.getName();
+                    playerOneLosses = stats.getLosses();
+                    playerOneWins = stats.getWins();
+                    newColor1 = new Color(Integer.parseInt(stats.getColor()));
+                }
+                else {
+                    playerTwo = stats.getName();
+                    playerTwoLosses = stats.getLosses();
+                    playerTwoWins = stats.getWins();
+                    newColor2 = new Color(Integer.parseInt(stats.getColor()));
+                }
+                counter++;
+            }
+            view.playerTwoWins.setText(playerTwoWins + " ");
+            view.playerOneLosses.setText(playerOneLosses + " ");
+            view.playerOneWins.setText(playerOneWins + " ");
+            view.playerTwoLosses.setText(playerTwoLosses + " ");
+            view.playerOneName.setText(playerOne);
+            view.playerTwoName.setText(playerTwo);
+            view.playerOneName.setForeground(newColor1);
+            view.playerTwoName.setForeground(newColor2);
+
+            int continueGame = JOptionPane.showConfirmDialog(null, "Would you like to continue with the previous " +
+                    "game stats?", "Resume Game", JOptionPane.YES_NO_OPTION);
+            if(continueGame == JOptionPane.NO_OPTION) {
+                database.deleteAllStats();
+                resetStats();
+                openingMessage();
+            }
+        }
 
         view.resetButton.addActionListener(new ActionListener() {
             /**
@@ -59,14 +96,7 @@ public class Controller extends JPanel {
                         view.buttons[k][j].setForeground(Color.WHITE);
                         view.buttons[k][j].setBackground(Color.WHITE);
                         view.buttons[k][j].setEnabled(true);
-                        playerOneLosses = 0;
-                        playerTwoLosses = 0;
-                        playerOneWins = 0;
-                        playerTwoWins = 0;
-                        view.playerTwoWins.setText(playerTwoWins + " ");
-                        view.playerOneLosses.setText(playerOneLosses + " ");
-                        view.playerOneWins.setText(playerOneWins + " ");
-                        view.playerTwoLosses.setText(playerTwoLosses + " ");
+                        resetStats();
                     }
                 }
                 openingMessage();
@@ -151,7 +181,7 @@ public class Controller extends JPanel {
     public void openingMessage() {
         String[] options = {"Friend", "Computer", "Cancel"};
         int choice = JOptionPane.showOptionDialog(null, "The object of the game is to get 5 in a row. " +
-                        "Each player will have five seconds to make a move. Would you like to play against the computer or a friend?",
+                        "Would you like to play against the computer or a friend?",
                 "WELCOME TO GO MOKU!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options,
                 options[0]);
@@ -304,6 +334,23 @@ public class Controller extends JPanel {
             turn++;
         }
     }
+
+    /**
+     * Resets the game stats.
+     */
+    public void resetStats() {
+        playerOneLosses = 0;
+        playerTwoLosses = 0;
+        playerOneWins = 0;
+        playerTwoWins = 0;
+        view.playerTwoWins.setText(playerTwoWins + " ");
+        view.playerOneLosses.setText(playerOneLosses + " ");
+        view.playerOneWins.setText(playerOneWins + " ");
+        view.playerTwoLosses.setText(playerTwoLosses + " ");
+        view.playerOneName.setText(" ");
+        view.playerTwoName.setText(" ");
+    }
+
     /**
      * Adds the current game stats to the database.
      */

@@ -1,8 +1,6 @@
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.SocketHandler;
 
 /**
  * Class Database contains all of the necessary methods to save game stats into
