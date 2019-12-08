@@ -11,6 +11,9 @@
 # project specific databases
 *.db
 
+# emacs backup files
+*~
+
 # Generated files
 .idea/**/contentModel.xml
 
