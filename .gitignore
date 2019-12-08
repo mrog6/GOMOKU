@@ -8,8 +8,8 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
-#project specific databases
-databases/
+# project specific databases
+*.db
 
 # Generated files
 .idea/**/contentModel.xml
