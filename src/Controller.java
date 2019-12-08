@@ -313,12 +313,7 @@ public class Controller extends JPanel {
      * @param turn an integer that keeps track of who's turn it is
      */
     public void checkWin(int i, int j, int turn) {
-<<<<<<< HEAD
         if (model.isWinner(turn)) {
-=======
-        if (model.checkWin(i, j, turn)) {
-            isWinner = true;
->>>>>>> 8b96f0c089dc4bf008b05c2b96572906cda9bf31
             System.out.println("WINNER");
             for (int x = 0; x < 15; x++) {
                 for (int y = 0; y < 15; y++) {
