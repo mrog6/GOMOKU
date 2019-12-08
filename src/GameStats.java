@@ -46,23 +46,35 @@ public class GameStats {
      * Getter for the field color.
      * @return String color, the string representation of the color chosen by a player
      */
-    public String getColor() { return color; }
+    public String getColor()
+    {
+        return color;
+    }
 
     /**
      * Getter for the field name.
      * @return String name, the name of a player
      */
-    public String getName() { return name; }
+    public String getName()
+    {
+        return name;
+    }
 
     /**
      * Getter for the field losses.
      * @return int losses, the number of losses a player has
      */
-    public int getLosses() { return losses; }
+    public int getLosses()
+    {
+        return losses;
+    }
 
     /**
      * Getter for the field wins.
      * @return int wins, the number of wins a player has
      */
-    public int getWins() { return wins; }
+    public int getWins()
+    {
+        return wins;
+    }
 }

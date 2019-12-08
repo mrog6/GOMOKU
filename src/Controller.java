@@ -308,7 +308,7 @@ public class Controller extends JPanel {
      * @param turn
      */
     public void checkWin(int i, int j, int turn) {
-        if (model.checkWin(i, j, turn)) {
+        if (model.isWinner(turn)) {
             System.out.println("WINNER");
             for (int x = 0; x < 15; x++) {
                 for (int y = 0; y < 15; y++) {
