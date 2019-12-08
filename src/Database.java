@@ -12,15 +12,15 @@ import java.util.List;
  *
  */
 public class Database {
-    static final String DATABASE_NAME = "databaseStats.db";
-    static final String CONNECTION_URL = "jdbc:sqlite:databases/" + DATABASE_NAME;
-    static final String GAME_STATS = "gameStats";
-    static final String ID = "id";
-    static final String NAME = "name";
-    static final String COLOR = "color";
-    static final String LOSSES = "losses";
-    static final String WINS = "wins";
-    Connection connection;
+    private static final String DATABASE_NAME = "databaseStats.db";
+    private static final String CONNECTION_URL = "jdbc:sqlite:databases/" + DATABASE_NAME;
+    private static final String GAME_STATS = "gameStats";
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String COLOR = "color";
+    private static final String LOSSES = "losses";
+    private static final String WINS = "wins";
+    private Connection connection;
 
     /**
      * The constructor gets the connection to the database and then calls
@@ -35,7 +35,7 @@ public class Database {
      * Creates a table that holds game stats. The stats include player wins/losses as well as
      * player colors and symbols.
      */
-    public void createStatsTable() {
+    private void createStatsTable() {
         String sqlCreate = "CREATE TABLE " + GAME_STATS + "(" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NAME + " TEXT, " +
@@ -121,7 +121,7 @@ public class Database {
     /**
      * Obtains a connection to the database via the connection url.
      */
-    public void getConnection() {
+    private void getConnection() {
         try {
             connection = DriverManager.getConnection(CONNECTION_URL);
             System.out.println("Successfully connected to the database");
@@ -148,7 +148,7 @@ public class Database {
      * @return boolean hasNext, true if the table already exists, false otherwise
      */
     private boolean tableExists() {
-        DatabaseMetaData md = null;
+        DatabaseMetaData md;
         boolean hasNext = false;
         try {
             md = connection.getMetaData();

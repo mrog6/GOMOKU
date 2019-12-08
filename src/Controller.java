@@ -18,18 +18,18 @@ public class Controller extends JPanel {
     private Database database;
     private Model model;
     private View view;
-    protected int turn;
-    protected String playerOne;
-    protected String playerTwo;
-    protected Color newColor1;
-    protected Color newColor2;
-    Color c = Color.WHITE;
-    protected int playerOneWins = 0;
-    protected int playerTwoWins = 0;
-    protected int playerOneLosses = 0;
-    protected int playerTwoLosses = 0;
-    protected boolean computerPlaying = false;
-    protected boolean isWinner = false;
+    private int turn;
+    private String playerOne;
+    private String playerTwo;
+    private Color newColor1;
+    private Color newColor2;
+    private Color c = Color.WHITE;
+    private int playerOneWins = 0;
+    private int playerTwoWins = 0;
+    private int playerOneLosses = 0;
+    private int playerTwoLosses = 0;
+    private boolean computerPlaying = false;
+    private boolean isWinner = false;
 
     /**
      * The constructor creates a View object to begin the game and displays
@@ -133,7 +133,7 @@ public class Controller extends JPanel {
     /**
      * Allows each of the two players to choose their symbol color.
      */
-    public void chooseColorTwoPlayer() {
+    private void chooseColorTwoPlayer() {
         newColor1 = JColorChooser.showDialog(null,
                 playerOne + ", choose your symbol color!",
                 null);
@@ -161,7 +161,7 @@ public class Controller extends JPanel {
      * Allows the single user, who is playing against the computer, to choose
      * their symbol color.
      */
-    public void chooseColorOnePlayer() {
+    private void chooseColorOnePlayer() {
         newColor1 = JColorChooser.showDialog(null,
                 playerOne + ", choose your symbol color!",
                 null);
@@ -180,7 +180,7 @@ public class Controller extends JPanel {
      * Displays the game instructions and allows the user to either play with a friend
      * or play against the computer.
      */
-    public void openingMessage() {
+    private void openingMessage() {
         String[] options = {"Friend", "Computer", "Cancel"};
         int choice = JOptionPane.showOptionDialog(null, "The object of the game is to get 5 in a row. " +
                         "Would you like to play against the computer or a friend?",
@@ -203,7 +203,7 @@ public class Controller extends JPanel {
     /**
      * Allows each of two players to input their names.
      */
-    public void twoPlayerGame() {
+    private void twoPlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter player 1's name");
         if (playerOne.length() != 0)
             view.playerOneName.setText(playerOne);
@@ -227,7 +227,7 @@ public class Controller extends JPanel {
     /**
      * Allows the single user playing against the computer to input his/her name.
      */
-    public void onePlayerGame() {
+    private void onePlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter your name");
         if (playerOne.length() != 0)
             view.playerOneName.setText(playerOne);
@@ -312,14 +312,14 @@ public class Controller extends JPanel {
      * @param j the column of the button that was pressed
      * @param turn an integer that keeps track of who's turn it is
      */
-    public void checkWin(int i, int j, int turn) {
+    private void checkWin(int i, int j, int turn) {
         if (model.isWinner(turn)) {
-            System.out.println("WINNER");
             for (int x = 0; x < 15; x++) {
                 for (int y = 0; y < 15; y++) {
                     view.buttons[x][y].setEnabled(false);
                 }
             }
+            
             if (turn % 2 == 1) {
                 view.buttons[i][j].setText("X");
                 view.statusLabel.setForeground(newColor1);
@@ -342,6 +342,7 @@ public class Controller extends JPanel {
 
             int newGame = JOptionPane.showConfirmDialog(null, "Do you want to play again?",
                     "Game Over", JOptionPane.YES_NO_OPTION);
+            
             if (newGame == JOptionPane.YES_OPTION) {
                 model.emptyBoard();
                 view.statusLabel.setForeground(Color.BLACK);
@@ -353,6 +354,7 @@ public class Controller extends JPanel {
                         view.buttons[k][l].setEnabled(true);
                     }
                 }
+                
                 if (computerPlaying) {
                     view.statusLabel.setText("Player vs Computer");
                     newColor2 = Color.BLACK;
@@ -384,7 +386,7 @@ public class Controller extends JPanel {
     /**
      * Resets the game stats.
      */
-    public void resetStats() {
+    private void resetStats() {
         playerOneLosses = 0;
         playerTwoLosses = 0;
         playerOneWins = 0;
@@ -400,7 +402,7 @@ public class Controller extends JPanel {
     /**
      * Adds the current game stats to the database.
      */
-    public void addStatsToDatabase() {
+    private void addStatsToDatabase() {
         String color1 = String.valueOf(newColor1.getRGB());
         String color2 = String.valueOf(newColor2.getRGB());
         GameStats newInsert1 = new GameStats(playerOne, color1, playerOneLosses, playerOneWins);
@@ -414,6 +416,6 @@ public class Controller extends JPanel {
  */
     public static void main(String[] args) {
         Model model = new Model();
-        Controller controller = new Controller(model);
+        new Controller(model);
     }
 }

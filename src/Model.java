@@ -11,10 +11,7 @@ import java.util.Random;
  */
 public class Model {
     private char[][] board;
-    public static int WIN_COUNT = 5;
-    public static int COLUMNS = 15;
-    public static int ROWS = 15;
-
+    
     /**
      * Constructor, creates 15x15 board of dashes.
      */
@@ -89,10 +86,12 @@ public class Model {
         //HORIZONTAL
         int leftBound = 0;
         int rightBound;
-        
+    
+        int WIN_COUNT = 5;
         if (j - WIN_COUNT - 1 >= 0)
             leftBound = j - WIN_COUNT - 1;
-
+    
+        int COLUMNS = 15;
         if (j + WIN_COUNT - 1 <= COLUMNS - 1)
             rightBound = j + WIN_COUNT -1;
         else
@@ -156,7 +155,8 @@ public class Model {
             smallerBound = i - WIN_COUNT - 1;
         else
             smallerBound = 0;
-
+    
+        int ROWS = 15;
         if (i + WIN_COUNT - 1 <= ROWS - 1)
             largerBound = i + WIN_COUNT - 1;
         else

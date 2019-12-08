@@ -14,14 +14,12 @@ import java.awt.event.ActionListener;
 public class View extends JFrame implements ActionListener {
     private Controller controller;
     protected JLabel statusLabel;
-    protected JLabel banner;
     protected JLabel playerOneName;
     protected JLabel playerTwoName;
     protected JLabel playerOneWins;
     protected JLabel playerOneLosses;
     protected JLabel playerTwoWins;
     protected JLabel playerTwoLosses;
-    protected JPanel contentPanel;
     protected JButton resetButton;
     protected JButton saveExitButton;
     protected JButton quitButton;
@@ -49,9 +47,9 @@ public class View extends JFrame implements ActionListener {
      * game board, the statusLabel Panel contains the status label, and the lastPanel
      * contains the buttons.
      */
-    public void setupUI() {
-        contentPanel = (JPanel) getContentPane();
-        banner = new JLabel("Welcome to Color Chooser!");
+    private void setupUI() {
+        JPanel contentPanel = (JPanel) getContentPane();
+        JLabel banner = new JLabel("Welcome to Color Chooser!");
 
         // layout for the top half of the app: two gridLayouts for the players inside of a boxLayout
         JPanel topPanel = new JPanel();
