@@ -18,18 +18,18 @@ public class Controller extends JPanel {
     private Database database;
     private Model model;
     private View view;
-    protected int turn;
-    protected String playerOne;
-    protected String playerTwo;
-    protected Color newColor1;
-    protected Color newColor2;
-    Color c = Color.WHITE;
-    protected int playerOneWins = 0;
-    protected int playerTwoWins = 0;
-    protected int playerOneLosses = 0;
-    protected int playerTwoLosses = 0;
-    protected boolean computerPlaying = false;
-    protected boolean isWinner = false;
+    private int turn;
+    private String playerOne;
+    private String playerTwo;
+    private Color newColor1;
+    private Color newColor2;
+    private Color c = Color.WHITE;
+    private int playerOneWins = 0;
+    private int playerTwoWins = 0;
+    private int playerOneLosses = 0;
+    private int playerTwoLosses = 0;
+    private boolean computerPlaying = false;
+    private boolean isWinner = false;
 
     /**
      * The constructor creates a View object to begin the game and displays
