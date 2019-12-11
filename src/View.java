@@ -81,8 +81,6 @@ public class View extends JFrame implements ActionListener {
      * An array of buttons for the game board.
      */
     protected JButton[][] buttons;
-    //protected final String PLAYER_ONE_SYMBOL = "X";
-    //protected final String PLAYER_TWO_SYMBOL = "O";
 
     /**
      * Constructor for class View. Calls setupUI() and pack().
