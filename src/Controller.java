@@ -471,6 +471,7 @@ public class Controller extends JPanel {
 
 /**
  * The main() method for the program. Creates a Model object and a Controller object.
+ * @param args Not used in this program
  */
     public static void main(String[] args) {
         Model model = new Model();

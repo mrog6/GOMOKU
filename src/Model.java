@@ -6,7 +6,7 @@ import java.util.Random;
  * by class Controller to empty the board, check for a winner, and check for valid moves.
  *
  * @author Meghan Rogers, Nick Chua, Ewan Akins
- * @see "No Borrowed Code" "Should include code borrowed to track the winner"
+ * @see "No Borrowed Code"
  *
  */
 public class Model {
