@@ -6,13 +6,28 @@ import java.util.Random;
  * by class Controller to empty the board, check for a winner, and check for valid moves.
  *
  * @author Meghan Rogers, Nick Chua, Ewan Akins
- * @see "No Borrowed Code"
+ * @see "No Borrowed Code" "Should include code borrowed to track the winner"
  *
  */
 public class Model {
+    /**
+     * An array of characters to represent the game board.
+     */
     private char[][] board;
+
+    /**
+     * The number needed to win the game.
+     */
     public static int WIN_COUNT = 5;
+
+    /**
+     * The number of columns on the game board.
+     */
     public static int COLUMNS = 15;
+
+    /**
+     * The number of rows on the game board.
+     */
     public static int ROWS = 15;
 
     /**

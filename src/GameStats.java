@@ -7,10 +7,29 @@
  *
  */
 public class GameStats {
+    /**
+     * The id location of the player stats in the database.
+     */
     private int id;
+
+    /**
+     * A string representation of the color chosen by the user.
+     */
     private String color;
+
+    /**
+     * The name of the player.
+     */
     private String name;
+
+    /**
+     * The loss count of the player.
+     */
     private int losses;
+
+    /**
+     * The win count of the player.
+     */
     private int wins;
 
     /**

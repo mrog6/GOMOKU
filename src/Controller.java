@@ -11,24 +11,83 @@ import java.util.List;
  * and display dialogs.
  *
  * @author Meghan Rogers, Nick Chua, Ewan Akins
- * @see "No Borrowed Code"
+ * @see "https://docs.oracle.com/javase/tutorial/uiswing/components/colorchooser.html"
  *
  */
 public class Controller extends JPanel {
+    /**
+     * An object of class Database.
+     */
     private Database database;
+
+    /**
+     * An object of class Model.
+     */
     private Model model;
+
+    /**
+     * An object of class View.
+     */
     private View view;
+
+    /**
+     * Integer used to keep track of who's turn it is during the game.
+     */
     private int turn;
+
+    /**
+     * The name of player one.
+     */
     private String playerOne;
+
+    /**
+     * The name of player two (or the computer).
+     */
     private String playerTwo;
+
+    /**
+     * Stores the color chosen by player 1.
+     */
     private Color newColor1;
+
+    /**
+     * Stores the color chosen by player 2 (or the computer).
+     */
     private Color newColor2;
+
+    /**
+     * Stores the color white.
+     */
     private Color c = Color.WHITE;
+
+    /**
+     * The win count for player one.
+     */
     private int playerOneWins = 0;
+
+    /**
+     * The win count for player two.
+     */
     private int playerTwoWins = 0;
+
+    /**
+     * The loss count for player one.
+     */
     private int playerOneLosses = 0;
+
+    /**
+     * The loss count for player two.
+     */
     private int playerTwoLosses = 0;
+
+    /**
+     * Used to determine the game mode, against a friend or the computer.
+     */
     private boolean computerPlaying = false;
+
+    /**
+     * Used to keep track of whether or not a winner has been found.
+     */
     private boolean isWinner = false;
 
     /**
