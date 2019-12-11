@@ -240,10 +240,10 @@ public class Controller extends JPanel {
      * or play against the computer.
      */
     public void openingMessage() {
-        String[] options = {"Friend", "Computer", "Cancel"};
+        String[] options = {"Friend", "Computer"};
         int choice = JOptionPane.showOptionDialog(null, "The object of the game is to get 5 in a row. " +
                         "Would you like to play against the computer or a friend?",
-                "WELCOME TO GO MOKU!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                "WELCOME TO GO MOKU!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options,
                 options[0]);
         if (choice == JOptionPane.YES_OPTION) {
@@ -264,19 +264,21 @@ public class Controller extends JPanel {
      */
     public void twoPlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter player 1's name");
-        if (playerOne.length() != 0)
-            view.playerOneName.setText(playerOne);
-        else {
+        if (playerOne == null || playerOne.length() == 0) {
             view.playerOneName.setText("Player 1");
             playerOne = "Player 1";
         }
+        else {
+            view.playerOneName.setText(playerOne);
+        }
 
         playerTwo = JOptionPane.showInputDialog("Please enter player 2's name");
-        if (playerTwo.length() != 0)
-            view.playerTwoName.setText(playerTwo);
+        if (playerTwo == null || playerTwo.length() == 0) {
+            view.playerTwoName.setText("Player 1");
+            playerTwo = "Player 1";
+        }
         else {
-            view.playerTwoName.setText("Player 2");
-            playerTwo = "Player 2";
+            view.playerTwoName.setText(playerTwo);
         }
         this.turn = 1;
         view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
@@ -288,11 +290,12 @@ public class Controller extends JPanel {
      */
     public void onePlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter your name");
-        if (playerOne.length() != 0)
-            view.playerOneName.setText(playerOne);
-        else {
+        if (playerOne == null || playerOne.length() == 0) {
             view.playerOneName.setText("Player 1");
             playerOne = "Player 1";
+        }
+        else {
+            view.playerOneName.setText(playerOne);
         }
         playerTwo = "Computer";
         view.playerTwoName.setText(playerTwo);
@@ -313,6 +316,7 @@ public class Controller extends JPanel {
             if (!model.validMove(i, j)) {
                 if (turn % 2 == 1) {
                     view.statusLabel.setText("Invalid Move. Try again");
+                    return;
                 }
             }
             else {
@@ -342,8 +346,10 @@ public class Controller extends JPanel {
             if (!model.validMove(i, j)) {
                 if (turn % 2 == 1) {
                     view.statusLabel.setText("Invalid Move. " + view.playerOneName.getText() + "'s turn");
+                    return;
                 } else if (turn % 2 == 0) {
                     view.statusLabel.setText("Invalid Move. " + view.playerTwoName.getText() + "'s turn");
+                    return;
                 }
             } else {
                 model.insertSymbol(i, j, turn);
