@@ -6,7 +6,7 @@ import java.util.Random;
  * by class Controller to empty the board, check for a winner, and check for valid moves.
  *
  * @author Meghan Rogers, Nick Chua, Ewan Akins
- * @see "No Borrowed Code"
+ * @see "https://stackoverflow.com/questions/35679244/java-efficient-check-for-winning-condition-in-5-in-raw"
  *
  */
 public class Model {
