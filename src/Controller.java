@@ -164,18 +164,6 @@ public class Controller extends JPanel {
             }
         });
 
-        view.saveExitButton.addActionListener(new ActionListener() {
-            /**
-             * Called when the Save and Exit button is pressed, this action listener
-             * saves the current game stats for each player.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addStatsToDatabase();
-                System.exit(0);
-            }
-        });
-
         view.quitButton.addActionListener(new ActionListener() {
             /**
              * Called when the Quit button is pressed, this action listener

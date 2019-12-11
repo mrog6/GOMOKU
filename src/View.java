@@ -68,11 +68,6 @@ public class View extends JFrame implements ActionListener {
     protected JButton resetButton;
 
     /**
-     * Button that allows the user to save their game and exit the app.
-     */
-    protected JButton saveExitButton;
-
-    /**
      * Button that allows the user to quit the app.
      */
     protected JButton quitButton;
@@ -184,9 +179,7 @@ public class View extends JFrame implements ActionListener {
 
         JPanel lastPanel = new JPanel();
         resetButton = new JButton("Reset Names and Stats");
-        saveExitButton = new JButton("Save and Exit");
         quitButton = new JButton("Quit");
-        lastPanel.add(saveExitButton);
         lastPanel.add(resetButton);
         lastPanel.add(quitButton);
 
