@@ -12,22 +12,70 @@ import java.awt.event.ActionListener;
  *
  */
 public class View extends JFrame implements ActionListener {
+    /**
+     * An object of class Controller.
+     */
     private Controller controller;
+
+    /**
+     * Status label used to update the user(s).
+     */
     protected JLabel statusLabel;
+
+    /**
+     * Label used for the color chooser.
+     */
     protected JLabel banner;
+
+    /**
+     * Label to store the name of player one.
+     */
     protected JLabel playerOneName;
+
+    /**
+     * Label to store the name of player two.
+     */
     protected JLabel playerTwoName;
+
+    /**
+     * Label to store the win count of player one.
+     */
     protected JLabel playerOneWins;
+
+    /**
+     * Label to store the loss count of player one.
+     */
     protected JLabel playerOneLosses;
+
+    /**
+     * Label to store the win count of player two.
+     */
     protected JLabel playerTwoWins;
+
+    /**
+     * Label to store the loss count of player two.
+     */
     protected JLabel playerTwoLosses;
+
+    /**
+     * JPanel to hold components of the GUI.
+     */
     protected JPanel contentPanel;
+
+    /**
+     * Button that allows the user to reset the game stats.
+     */
     protected JButton resetButton;
-    protected JButton saveExitButton;
+
+    /**
+     * Button that allows the user to quit the app.
+     */
     protected JButton quitButton;
+
+    /**
+     * An array of buttons for the game board.
+     */
     protected JButton[][] buttons;
-    protected final String PLAYER_ONE_SYMBOL = "X";
-    protected final String PLAYER_TWO_SYMBOL = "O";
 
     /**
      * Constructor for class View. Calls setupUI() and pack().
@@ -131,9 +179,7 @@ public class View extends JFrame implements ActionListener {
 
         JPanel lastPanel = new JPanel();
         resetButton = new JButton("Reset Names and Stats");
-        saveExitButton = new JButton("Save and Exit");
         quitButton = new JButton("Quit");
-        lastPanel.add(saveExitButton);
         lastPanel.add(resetButton);
         lastPanel.add(quitButton);
 

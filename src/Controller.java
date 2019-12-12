@@ -11,24 +11,84 @@ import java.util.List;
  * and display dialogs.
  *
  * @author Meghan Rogers, Nick Chua, Ewan Akins
- * @see "No Borrowed Code"
+ * @see "https://docs.oracle.com/javase/tutorial/uiswing/components/colorchooser.html"
  *
  */
 public class Controller extends JPanel {
+    /**
+     * An object of class Database.
+     */
     private Database database;
+
+    /**
+     * An object of class Model.
+     */
     private Model model;
+
+    /**
+     * An object of class View.
+     */
     private View view;
-    protected int turn;
-    protected String playerOne;
-    protected String playerTwo;
-    protected Color newColor1;
-    protected Color newColor2;
-    Color c = Color.WHITE;
-    protected int playerOneWins = 0;
-    protected int playerTwoWins = 0;
-    protected int playerOneLosses = 0;
-    protected int playerTwoLosses = 0;
-    protected boolean computerPlaying = false;
+
+    /**
+     * Integer used to keep track of who's turn it is during the game.
+     */
+    private int turn;
+
+    /**
+     * The name of player one.
+     */
+    private String playerOne;
+
+    /**
+     * The name of player two (or the computer).
+     */
+    private String playerTwo;
+
+    /**
+     * Stores the color chosen by player 1.
+     */
+    private Color newColor1;
+
+    /**
+     * Stores the color chosen by player 2 (or the computer).
+     */
+    private Color newColor2;
+
+    /**
+     * Stores the color white.
+     */
+    private Color c = Color.WHITE;
+
+    /**
+     * The win count for player one.
+     */
+    private int playerOneWins = 0;
+
+    /**
+     * The win count for player two.
+     */
+    private int playerTwoWins = 0;
+
+    /**
+     * The loss count for player one.
+     */
+    private int playerOneLosses = 0;
+
+    /**
+     * The loss count for player two.
+     */
+    private int playerTwoLosses = 0;
+
+    /**
+     * Used to determine the game mode, against a friend or the computer.
+     */
+    private boolean computerPlaying = false;
+
+    /**
+     * Used to keep track of whether or not a winner has been found.
+     */
+    private boolean isWinner = false;
 
     /**
      * The constructor creates a View object to begin the game and displays
@@ -104,18 +164,6 @@ public class Controller extends JPanel {
             }
         });
 
-        view.saveExitButton.addActionListener(new ActionListener() {
-            /**
-             * Called when the Save and Exit button is pressed, this action listener
-             * saves the current game stats for each player.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addStatsToDatabase();
-                System.exit(0);
-            }
-        });
-
         view.quitButton.addActionListener(new ActionListener() {
             /**
              * Called when the Quit button is pressed, this action listener
@@ -180,17 +228,19 @@ public class Controller extends JPanel {
      * or play against the computer.
      */
     public void openingMessage() {
-        String[] options = {"Friend", "Computer", "Cancel"};
+        String[] options = {"Friend", "Computer"};
         int choice = JOptionPane.showOptionDialog(null, "The object of the game is to get 5 in a row. " +
                         "Would you like to play against the computer or a friend?",
-                "WELCOME TO GO MOKU!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                "WELCOME TO GO MOKU!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options,
                 options[0]);
         if (choice == JOptionPane.YES_OPTION) {
+            computerPlaying = false;
             twoPlayerGame();
         }
         else if (choice == JOptionPane.NO_OPTION) {
             computerPlaying = true;
+            view.statusLabel.setText("Player vs Computer");
             onePlayerGame();
         }
         else
@@ -202,19 +252,22 @@ public class Controller extends JPanel {
      */
     public void twoPlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter player 1's name");
-        if (playerOne.length() != 0)
-            view.playerOneName.setText(playerOne);
-        else {
+
+        if (playerOne == null || playerOne.length() == 0) {
             view.playerOneName.setText("Player 1");
             playerOne = "Player 1";
         }
+        else {
+            view.playerOneName.setText(playerOne);
+        }
 
         playerTwo = JOptionPane.showInputDialog("Please enter player 2's name");
-        if (playerTwo.length() != 0)
-            view.playerTwoName.setText(playerTwo);
+        if (playerTwo == null || playerTwo.length() == 0) {
+            view.playerTwoName.setText("Player 1");
+            playerTwo = "Player 1";
+        }
         else {
-            view.playerTwoName.setText("Player 2");
-            playerTwo = "Player 2";
+            view.playerTwoName.setText(playerTwo);
         }
         this.turn = 1;
         view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
@@ -226,16 +279,18 @@ public class Controller extends JPanel {
      */
     public void onePlayerGame() {
         playerOne = JOptionPane.showInputDialog("Please enter your name");
-        if (playerOne.length() != 0)
-            view.playerOneName.setText(playerOne);
-        else {
+        
+        if (playerOne == null || playerOne.length() == 0) {
             view.playerOneName.setText("Player 1");
             playerOne = "Player 1";
+        }
+        else {
+            view.playerOneName.setText(playerOne);
         }
         playerTwo = "Computer";
         view.playerTwoName.setText(playerTwo);
         this.turn = 1;
-        view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+        view.statusLabel.setText("Player vs Computer");
         chooseColorOnePlayer();
     }
 
@@ -250,21 +305,31 @@ public class Controller extends JPanel {
         if (computerPlaying) {
             if (!model.validMove(i, j)) {
                 if (turn % 2 == 1) {
-                    view.statusLabel.setText("Invalid Move. " + view.playerOneName.getText() + "'s turn");
+                    view.statusLabel.setText("Invalid Move. Try again");
+                    return;
                 }
             }
             else {
                 model.insertSymbol(i, j, turn);
+                view.buttons[i][j].setText("X");
+                view.buttons[i][j].setForeground(newColor1);
+                view.buttons[i][j].setBackground(newColor1);
+                checkWin(i, j, turn);
+                turn++;
+                if (!isWinner) {
+                    int x;
+                    int y;
+                    do {
+                        Point temp = model.computerChoice(i, j);
+                        x = (int) temp.getX();
+                        y = (int) temp.getY();
+                    } while (!model.validMove(x, y));
+                    view.buttons[x][y].setText("O");
+                    view.buttons[x][y].setForeground(newColor2);
+                    view.buttons[x][y].setBackground(newColor2);
+                    model.insertSymbol(x, y, turn);
+                    checkWin(x, y, turn);
 
-                if (turn % 2 == 1) {
-                    view.buttons[i][j].setText("X");
-                    view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
-                    view.buttons[i][j].setForeground(newColor1);
-                    view.buttons[i][j].setBackground(newColor1);
-                }
-                else if (turn % 2 == 0) {
-                    view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
-                    System.out.println("this is where the computer plays");
                 }
             }
         }
@@ -272,8 +337,10 @@ public class Controller extends JPanel {
             if (!model.validMove(i, j)) {
                 if (turn % 2 == 1) {
                     view.statusLabel.setText("Invalid Move. " + view.playerOneName.getText() + "'s turn");
+                    return;
                 } else if (turn % 2 == 0) {
                     view.statusLabel.setText("Invalid Move. " + view.playerTwoName.getText() + "'s turn");
+                    return;
                 }
             } else {
                 model.insertSymbol(i, j, turn);
@@ -290,9 +357,22 @@ public class Controller extends JPanel {
                     view.buttons[i][j].setBackground(newColor2);
                 }
             }
-        }
 
+            checkWin(i, j, turn);
+        }
+        turn++;
+    }
+
+    /**
+     * Checks the board for a winner.
+     * @param i the row of the button that was pressed
+     * @param j the column of the button that was pressed
+     * @param turn an integer that keeps track of who's turn it is
+     */
+    public void checkWin(int i, int j, int turn) {
         if (model.checkWin(i, j, turn)) {
+            isWinner = true;
+
             System.out.println("WINNER");
             for (int x = 0; x < 15; x++) {
                 for (int y = 0; y < 15; y++) {
@@ -301,7 +381,10 @@ public class Controller extends JPanel {
             }
 
             if (turn % 2 == 1) {
+                view.buttons[i][j].setText("X");
                 view.statusLabel.setForeground(newColor1);
+                view.buttons[i][j].setForeground(newColor1);
+
                 playerOneWins++;
                 playerTwoLosses++;
                 view.statusLabel.setText(view.playerOneName.getText() + " Wins!");
@@ -310,10 +393,12 @@ public class Controller extends JPanel {
             } else if (turn % 2 == 0) {
                 view.buttons[i][j].setText("O");
                 view.statusLabel.setForeground(newColor2);
+
+                view.buttons[i][j].setForeground(newColor2);
                 playerTwoWins++;
                 playerOneLosses++;
                 view.statusLabel.setText(view.playerTwoName.getText() + " Wins!");
-                view.buttons[i][j].setForeground(newColor2);
+
                 view.playerTwoWins.setText(playerTwoWins + " ");
                 view.playerOneLosses.setText(playerOneLosses + " ");
             }
@@ -331,10 +416,17 @@ public class Controller extends JPanel {
                         view.buttons[k][l].setEnabled(true);
                     }
                 }
-                if (turn % 2 == 1) {
-                    view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
-                } else if (turn % 2 == 0) {
-                    view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+
+                if (computerPlaying) {
+                    view.statusLabel.setText("Player vs Computer");
+                    newColor2 = Color.BLACK;
+                }
+                else {
+                    if (turn % 2 == 1) {
+                        view.statusLabel.setText(view.playerTwoName.getText() + "'s turn");
+                    } else if (turn % 2 == 0) {
+                        view.statusLabel.setText(view.playerOneName.getText() + "'s turn");
+                    }
                 }
             } else {
                 int saveGame = JOptionPane.showConfirmDialog(null, "Do you want to save your game stats?",
@@ -348,7 +440,9 @@ public class Controller extends JPanel {
                 }
             }
         }
-        turn++;
+        else {
+            isWinner = false;
+        }
     }
 
     /**
@@ -378,10 +472,11 @@ public class Controller extends JPanel {
         database.insertStats(newInsert1);
         database.insertStats(newInsert2);
     }
-
-    /**
-     * The main() method for the program. Creates a Model object and a Controller object.
-     */
+    
+/**
+ * The main() method for the program. Creates a Model object and a Controller object.
+ * @param args Not used in this program
+ */
     public static void main(String[] args) {
         Model model = new Model();
         Controller controller = new Controller(model);

@@ -12,14 +12,50 @@ import java.util.List;
  *
  */
 public class Database {
+    /**
+     * The name given to the database.
+     */
     static final String DATABASE_NAME = "databaseStats.db";
+
+    /**
+     * The connection URL.
+     */
     static final String CONNECTION_URL = "jdbc:sqlite:databases/" + DATABASE_NAME;
+
+    /**
+     * The name of our table.
+     */
     static final String GAME_STATS = "gameStats";
+
+    /**
+     * The label for the primary key.
+     */
     static final String ID = "id";
+
+    /**
+     * The label for the name column in the database.
+     */
     static final String NAME = "name";
+
+    /**
+     * The label for the color column in the database.
+     */
     static final String COLOR = "color";
+
+    /**
+     * The label for the losses column in the database
+     */
     static final String LOSSES = "losses";
+
+    /**
+     * The label for the wins column in the database.
+     */
     static final String WINS = "wins";
+
+    /**
+     * An object of class Connection that allows us to connect to the database.
+     */
+
     Connection connection;
 
     /**
